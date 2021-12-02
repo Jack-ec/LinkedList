@@ -1,5 +1,6 @@
 
 public class LinkedList {
+	private Node base;
 	Node head = null;
 	Node tail = null;
 	public void add(String element) {
@@ -36,8 +37,18 @@ public class LinkedList {
 	}
 
 	public int size() {
-	}
-
+		int count = 0;
+	    if (base == null)
+	        return count;
+	    else {
+	        Node temp = base;
+	        do {
+	            temp = temp.next;
+	            count++;
+	        } while (temp != base);
+	    }
+	    return count;
+	  }
 	public void clear() {
 		
 	}
