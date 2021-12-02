@@ -18,7 +18,17 @@ public class LinkedList {
 	}
 
 	public void add(int index, String element) {
-		
+		if (tail == null) {
+			return;
+		}
+		Node new_node = new Node(element, tail, head);
+		new_node.next = tail.next;
+		tail.next = new_node;
+		new_node.previous = tail;
+		if (new_node.next != null) {
+			new_node.next = new_node;
+			new_node.previous = new_node;
+		}
 	}
 
 	public String toString() {
