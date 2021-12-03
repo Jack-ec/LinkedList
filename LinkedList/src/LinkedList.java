@@ -1,8 +1,8 @@
 
 public class LinkedList {
-	private Node base;
 	Node head = null;
 	Node tail = null;
+	int size = 0;
 	public void add(String element) {
 		Node newNode = new Node(element, null, null);  
         if(head == null) {   
@@ -16,6 +16,7 @@ public class LinkedList {
             tail = newNode;  
             tail.next = null;  
         }  
+        size++;
 	}
 
 	public void add(int index, String element) {
@@ -30,6 +31,7 @@ public class LinkedList {
 			new_node.next = new_node;
 			new_node.previous = new_node;
 		}
+		size++;
 	}
 
 	public String toString() {
@@ -37,32 +39,48 @@ public class LinkedList {
 	}
 
 	public int size() {
-		int count = 0;
-	    if (base == null)
-	        return count;
-	    else {
-	        Node temp = base;
-	        do {
-	            temp = temp.next;
-	            count++;
-	        } while (temp != base);
-	    }
-	    return count;
-	  }
-	public void clear() {
+		return size;
 		
 	}
 
 	public String get(int index) {
-		
-	}
-
+		if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            return current.value;
+        }
+    }
 	public void set(int index, String element) {
 		
 	}
 
 	public void remove(int index) {
+	    if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            head = head.next;
+            head.previous = null;
+            size--;
+        } else if (index == size - 1) {
+            tail = tail.previous;
+            tail.next = null;
+            size--;
+        } else {
+            Node current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            Node previous = current.previous;
+            Node next = current.next;
+            previous.next = current.next;
+            next.previous = previous;
+            size--;
+        }
+    }
+
 		
 	}
-
-}
