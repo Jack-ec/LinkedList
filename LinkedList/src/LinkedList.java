@@ -19,30 +19,17 @@ public class LinkedList {
 		size++;
 	}
 
-	public void add(int index, String element) {
-		if (tail == null) {
-			return;
+	public void add(int index, String element) throws IndexOutOfBoundsException {
+		if (index < 0|| index > size) {
+			throw new IndexOutOfBoundsException();
 		}
-		Node new_node = new Node(element, tail, head);
-		new_node.next = tail.next;
-		tail.next = new_node;
-		new_node.previous = tail;
-		if (new_node.next != null) {
-			new_node.next = new_node;
-			new_node.previous = new_node;
-		}
-		size++;
+		
+
 	}
 
 	public String toString() {
-		Node current = head;  
-		if(head == null) {  
-			return null;  
-		}  
-		while(current != null) {  
-			
-		}
-	}  
+		return " ";
+	}
 
 
 	public int size() {
