@@ -19,7 +19,7 @@ public class LinkedList {
 		size++;
 	}
 
-	public void add(int index, String element) throws IndexOutOfBoundsException {
+	public void add(int index, String element) {
 		if (index < 0|| index > size) {
 			throw new IndexOutOfBoundsException();
 		}
