@@ -13,7 +13,7 @@ public class LinkedList {
 		else {  
 			tail.next = newNode;  
 			newNode.previous = tail;  
-			tail = newNode;  
+			tail = newNode.previous;  
 			tail.next = null;  
 		}  
 		size++;
