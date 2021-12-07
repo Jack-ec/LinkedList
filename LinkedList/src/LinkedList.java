@@ -54,11 +54,14 @@ public class LinkedList {
 	public String toString() {
 		String s = "[";
 		Node current = head;
-		while(current != null) {
+		while(current.next != null) {
 			s = s + current.getValue() + ", ";
 			current = current.next;
 		}
-		return s + "]";
+		if (current != null) {
+			s = s + current.getValue() + "]";
+		}
+		return s;
 	}
 
 
