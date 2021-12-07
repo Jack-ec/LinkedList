@@ -23,8 +23,32 @@ public class LinkedList {
 		if (index < 0|| index > size) {
 			throw new IndexOutOfBoundsException();
 		}
-		
-
+		Node newNode = new Node(element, null, null);
+		if (head == null) {
+			head = newNode;
+			tail = newNode;
+		}
+		else if (index == 0) {
+			newNode.next = head;
+			head.previous = newNode;
+			head = newNode;
+		}
+		else if (index == size) {
+			newNode.previous = tail;
+			tail.next = newNode;
+			tail = newNode;
+		}
+		else {
+			Node nodeRef = head;
+			for (int i = 1; i < index; i++) {
+				nodeRef = nodeRef.next;
+			}
+			newNode.next = nodeRef.next;
+			nodeRef.next = newNode;
+			newNode.previous = nodeRef;
+			newNode.next.previous = newNode;
+		}
+		size++;
 	}
 
 	public String toString() {
