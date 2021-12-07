@@ -52,7 +52,13 @@ public class LinkedList {
 	}
 
 	public String toString() {
-		return " ";
+		String s = "[";
+		Node current = head;
+		while(current != null) {
+			s = s + current.getValue() + ", ";
+			current = current.next;
+		}
+		return s + "]";
 	}
 
 
