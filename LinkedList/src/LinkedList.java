@@ -86,35 +86,17 @@ public class LinkedList {
 	}
 
 	public void remove(int index) {
-		if (index < 0 || index >= size) {
-			throw new IndexOutOfBoundsException();
-		} else if (index == 0) {
-			head = head.next;
-			head.previous = null;
-			size--;
-		} else if (index == size - 1) {
-			tail = tail.previous;
-			tail.next = null;
-			size--;
-		} else {
-			Node current = head;
-			for (int i = 0; i < index; i++) {
-				current = current.next;
-			}
-			Node previous = current.previous;
-			Node next = current.next;
-			previous.next = current.next;
-			next.previous = previous;
-			size--;
+	
 		}
-	}
+		
+	}  
 	public void clear() {
-		 Node temp = new Node(null, null, null);
-		  while(this.head != null) {
-		    temp = this.head;
-		    this.head = this.head.next;
-		    temp = null;
-		  }
+		Node temp = new Node(null, null, null);
+		while(this.head != null) {
+			temp = this.head;
+			this.head = this.head.next;
+			temp = null;
+		}
 
 	}
 
