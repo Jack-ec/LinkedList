@@ -82,11 +82,17 @@ public class LinkedList {
 		}
 	}
 	public void set(int index, String element) {
-		remove(index);
-		Node newNode = new Node(element, head, tail);
-		
-		
-
+		if (head == null) {
+			throw new IndexOutOfBoundsException();
+		}
+		else {
+		 Node current = head;
+		 int pos = index;
+		 for(int i = 0; i < pos; i++){  
+				current = current.next;  
+			}  
+		 current.value = element;
+		}
 	}
 
 	public void remove(int index) {
