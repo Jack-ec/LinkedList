@@ -132,14 +132,7 @@ public class LinkedList {
 	}
 
 	public void clear() {
-		Node temp = new Node(null, null, null);
-
-		while(this.head != null) {
-			temp = this.head;
-			this.head = this.head.next;
-			temp = null;
-		}
-
+		head = null;
 		size = 0;
 	}
 }
