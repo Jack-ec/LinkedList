@@ -52,22 +52,39 @@ public class LinkedList {
 	}
 
 	public String toString() {
-		String s = "[";
-		Node current = head;
-		while(current.next != null) {
-			s = s + current.getValue() + ", ";
-			current = current.next;
+		String string = "[";
+		for (Node node = this.head; node != null; node = node.next) {
+			if (node.next == null) {
+				string = string + node.value;
+			}
+			else {
+				string = string + node.value +", ";
+			}
 		}
-		if (current != null) {
-			s = s + current.getValue() + "]";
-		}
-		return s;
+		string = string + "]";
+		return string;
 	}
 
 
 	public int size() {
 		return size;
 
+	}
+	private Node getNode(int index) {
+		Node current = this.head;
+		
+		if (index >= 0 && index <= this.size) {
+			int i = 0;
+			
+			while( current != null && i++ < index) {
+				current = current.next;
+			}
+		}
+		else {
+			current = null;
+		}
+
+		return current;
 	}
 
 	public String get(int index) {
@@ -82,49 +99,47 @@ public class LinkedList {
 		}
 	}
 	public void set(int index, String element) {
-		if (head == null) {
-			throw new IndexOutOfBoundsException();
-		}
-		else {
-		 Node current = head;
-		 int pos = index;
-		 for(int i = 0; i < pos; i++){  
-				current = current.next;  
-			}  
-		 current.value = element;
-		}
+		Node current = getNode(index);
+		current.value = element;
 	}
 
 	public void remove(int index) {
-		if(head == null) {
-			throw new IndexOutOfBoundsException();
+		Node current = getNode(index);
+		Node prev = current.previous;
+		Node next = current.next;
+		
+		if (current.next == null && current.previous == null) {
+			current = null;
 		}
-		else {  
-			Node current = head;  
-
-			int pos = index;  
-
-			for(int i = 0; i < pos; i++){  
-				current = current.next;  
-			}  
-
-			if(current == head) {  
-				head = current.next;  
-			}  
-			else if(current == tail) {  
-				tail = tail.previous;  
-			}  
-			else {  
-				current.previous.next = current.next;  
-				current.next.previous = current.previous;  
-			}  
-			current = null;  
-		}  
-		size--;
+		
+		else if (current.next == null) {
+			current = null;
+			prev.next = null;
+		}
+		
+		else if (current.previous == null) {
+			current = null;
+			next.previous = null;
+			head = next;
+		}
+		
+		else {
+			current = null;
+			prev.next = next;
+			next.previous = prev;
+		}
+		this.size--;
 	}
+
 	public void clear() {
-		head = null;
-		tail = null;
+		Node temp = new Node(null, null, null);
+
+		while(this.head != null) {
+			temp = this.head;
+			this.head = this.head.next;
+			temp = null;
+		}
+
 		size = 0;
 	}
 }
