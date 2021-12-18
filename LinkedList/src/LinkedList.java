@@ -1,8 +1,11 @@
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
-public class LinkedList {
+public class LinkedList implements ListIterator<String> {
 	Node head = null;
 	Node tail = null;
 	int size = 0;
+	Node position = null;
 	public void add(String element) {
 		Node newNode = new Node(element, null, null);  
 		if(head == null) {   
@@ -72,10 +75,10 @@ public class LinkedList {
 	}
 	private Node getNode(int index) {
 		Node current = this.head;
-		
+
 		if (index >= 0 && index <= this.size) {
 			int i = 0;
-			
+
 			while( current != null && i++ < index) {
 				current = current.next;
 			}
@@ -107,22 +110,22 @@ public class LinkedList {
 		Node current = getNode(index);
 		Node prev = current.previous;
 		Node next = current.next;
-		
+
 		if (current.next == null && current.previous == null) {
 			current = null;
 		}
-		
+
 		else if (current.next == null) {
 			current = null;
 			prev.next = null;
 		}
-		
+
 		else if (current.previous == null) {
 			current = null;
 			next.previous = null;
 			head = next;
 		}
-		
+
 		else {
 			current = null;
 			prev.next = next;
@@ -135,5 +138,70 @@ public class LinkedList {
 		head = null;
 		size = 0;
 	}
-}
 
+	@Override
+	public boolean hasNext() {
+		if (position.next == null)
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public String next() {
+		String value;
+		if (!hasNext()) {
+			throw new NoSuchElementException();
+		}
+		value = position.value;
+		position = position.next;
+		return value;
+	}
+
+	@Override
+	public boolean hasPrevious() {
+		if (position.previous == null)
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public String previous() {
+		String value;
+		if (!hasNext()) {
+			throw new NoSuchElementException();
+		}
+		value = position.value;
+		position = position.previous;
+		return value;
+	}
+		
+	
+	@Override
+	public int nextIndex() {
+		return 0;
+	}
+
+	@Override
+	public int previousIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void remove() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void set(String e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public ListIterator<String> listIterator() {
+		return null;
+	}
+}
