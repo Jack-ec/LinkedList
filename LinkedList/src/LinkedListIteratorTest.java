@@ -13,15 +13,14 @@ public class LinkedListIteratorTest extends TestCase {
         list.add("two");
         list.add("three");
         list.add("four");
-               
+
         ListIterator i = list.listIterator();
 
         assertEquals("zero",  i.next());
 
         assertEquals(true, i.hasNext());
-        assertEquals(1, i.nextIndex());        
+        assertEquals(1, i.nextIndex());
         assertEquals("one",  i.next());
-        
         assertEquals(true, i.hasNext());
         assertEquals(2, i.nextIndex());
         assertEquals("two",  i.next());
@@ -52,9 +51,8 @@ public class LinkedListIteratorTest extends TestCase {
         
         //cursor should now be past 'four', so .previous() should return 'four'
         assertEquals("four",  i.previous());
-        
         assertEquals(true, i.hasPrevious());
-        assertEquals(3, i.previousIndex());        
+        assertEquals(3, i.previousIndex());
         assertEquals("three",  i.previous());
         
         assertEquals(true, i.hasPrevious());

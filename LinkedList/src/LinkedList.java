@@ -1,23 +1,27 @@
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public class LinkedList implements ListIterator<String> {
+public class LinkedList implements ListIterator<String>{
 	Node head = null;
 	Node tail = null;
 	int size = 0;
-	Node position = null;
+	Node cursor = null;
+	Node lastAccessed = null;
+	int index = 0;
+
+
 	public void add(String element) {
 		Node newNode = new Node(element, null, null);  
 		if(head == null) {   
-			head = tail = newNode;  
+			head = tail = cursor = newNode;
+			cursor.previous = lastAccessed;
 			head.previous = null;  
 			tail.next = null;  
 		}  
 		else {  
 			tail.next = newNode;  
 			newNode.previous = tail;  
-			tail = newNode.previous;  
-			tail.next = null;  
+			tail = newNode;  
 		}  
 		size++;
 	}
@@ -139,69 +143,89 @@ public class LinkedList implements ListIterator<String> {
 		size = 0;
 	}
 
+
 	@Override
 	public boolean hasNext() {
-		if (position.next == null)
-			return false;
-		else
+		if (cursor != null) {
 			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
 	public String next() {
-		String value;
+		String value = "";
 		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
-		value = position.value;
-		position = position.next;
+		else {
+			lastAccessed = cursor;
+			value = cursor.value;
+			index++;
+		}
+		cursor = cursor.next;
 		return value;
 	}
 
 	@Override
 	public boolean hasPrevious() {
-		if (position.previous == null)
-			return false;
-		else
-			return true;
-	}
+		  if (lastAccessed != null) {
+			  return true;
+		  }
+		  else {
+			  return false;
+		  }
+		}
 
 	@Override
 	public String previous() {
-		String value;
-		if (!hasNext()) {
+		String value = "";
+		if (!hasPrevious()) {
 			throw new NoSuchElementException();
 		}
-		value = position.value;
-		position = position.previous;
+		else {
+			value = lastAccessed.value;
+			index --;
+			cursor = lastAccessed;
+			lastAccessed = cursor.previous;
+		}
 		return value;
 	}
-		
-	
+
 	@Override
 	public int nextIndex() {
-		return 0;
+		return index;
 	}
 
 	@Override
 	public int previousIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		return index - 1;
 	}
 
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
-
+		if (lastAccessed == null) throw new IllegalStateException();
+        Node x = lastAccessed.previous;
+        Node y = lastAccessed.next;
+        x.next = y;
+        y.previous = x;
+        size--;
+        if (cursor == lastAccessed)
+            cursor = y;
+        else
+            index--;
+        lastAccessed = null;
 	}
 
 	@Override
 	public void set(String e) {
+	}
+
+	public ListIterator listIterator() {
 		// TODO Auto-generated method stub
-
+		return this;
 	}
 
-	public ListIterator<String> listIterator() {
-		return null;
-	}
 }
