@@ -8,7 +8,7 @@ public class LinkedList implements ListIterator<String>{
 	Node cursor = null;
 	Node lastAccessed = null;
 	int index = 0;
-
+	boolean lastCallWasNext = false;
 
 	public void add(String element) {
 		Node newNode = new Node(element, null, null);  
@@ -165,19 +165,20 @@ public class LinkedList implements ListIterator<String>{
 			value = cursor.value;
 			index++;
 		}
+		lastCallWasNext = true;
 		cursor = cursor.next;
 		return value;
 	}
 
 	@Override
 	public boolean hasPrevious() {
-		  if (lastAccessed != null) {
-			  return true;
-		  }
-		  else {
-			  return false;
-		  }
+		if (lastAccessed != null) {
+			return true;
 		}
+		else {
+			return false;
+		}
+	}
 
 	@Override
 	public String previous() {
@@ -191,6 +192,7 @@ public class LinkedList implements ListIterator<String>{
 			cursor = lastAccessed;
 			lastAccessed = cursor.previous;
 		}
+		lastCallWasNext = false;
 		return value;
 	}
 
@@ -207,25 +209,32 @@ public class LinkedList implements ListIterator<String>{
 	@Override
 	public void remove() {
 		if (lastAccessed == null) throw new IllegalStateException();
-        Node x = lastAccessed.previous;
-        Node y = lastAccessed.next;
-        x.next = y;
-        y.previous = x;
-        size--;
-        if (cursor == lastAccessed)
-            cursor = y;
-        else
-            index--;
-        lastAccessed = null;
+		Node x = lastAccessed.previous;
+		Node y = lastAccessed.next;
+		x.next = y;
+		y.previous = x;
+		size--;
+		if (cursor == lastAccessed)
+			cursor = y;
+		else {
+			index--;
+		}
+		lastAccessed = null;
 	}
 
 	@Override
 	public void set(String e) {
-	}
+		if (lastCallWasNext == true) {
+			 set(previousIndex(), e);
+		}
+		if (lastCallWasNext == false) {
+			set(nextIndex(), e);
+		}
 
+	}
+	
+	
 	public ListIterator listIterator() {
-		// TODO Auto-generated method stub
 		return this;
 	}
-
 }

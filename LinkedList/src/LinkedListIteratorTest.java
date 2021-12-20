@@ -100,13 +100,11 @@ public class LinkedListIteratorTest extends TestCase {
 
         //set should replace the last element returned by next() or previous()
         i.set("TWO");
-        assertEquals("TWO", list.get(2));        
-        
+        assertEquals("TWO", list.get(2));  
        //cursor should be between 2 and 3; a previous() should return value at 2
         assertEquals("TWO",  i.previous());
         //cursor should be between 1 and 2; a previous() should return value at 1
         assertEquals("one",  i.previous());
-        
         i.set("ONE");
         //set should replace the last element returned by next() or previous()
         assertEquals("ONE", list.get(1));        
@@ -140,7 +138,6 @@ public class LinkedListIteratorTest extends TestCase {
         list.add("two");
         list.add("three");
         list.add("four");
-        
         ListIterator<String> i = list.listIterator();
         
         //move two elements to the right
@@ -150,6 +147,7 @@ public class LinkedListIteratorTest extends TestCase {
         //insert new value at current cursor, which should be between one and two
         //the new element is inserted before the implicit cursor: 
         i.add("root two");
+        System.out.println(list.toString());
         assertEquals("[zero, one, root two, two, three, four]", list.toString());
 
         //move two to the right; should be unaffected by add
