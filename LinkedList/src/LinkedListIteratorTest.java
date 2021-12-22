@@ -157,14 +157,15 @@ public class LinkedListIteratorTest extends TestCase {
         //insert new value at current cursor, which should be between three and four
         //the new element is inserted before the implicit cursor: 
         i.add("PI");
+        System.out.println(list.toString());
         assertEquals("[zero, one, root two, two, three, PI, four]", list.toString());
 
         //subsequent call to previous would return the new element
         assertEquals("PI",  i.previous());
-
         assertEquals("three",  i.previous());
 
         i.add("e");
+        System.out.println(list.toString());
         assertEquals("[zero, one, root two, two, e, three, PI, four]", list.toString());
         //this call should not move the iterator, but will check if the iterator is in the correct place, between e and three
         assertEquals("three", list.get(i.nextIndex()));

@@ -9,8 +9,11 @@ public class LinkedList implements ListIterator<String>{
 	Node lastAccessed = null;
 	int index = 0;
 	boolean lastCallWasNext = false;
-
-	public void add(String element) {
+	boolean lastCallWasPrevious = false;
+	boolean lastCallWasAdd = false;
+	boolean lastCallWasRemove = false;
+	
+	public void addAtEnd(String element) {
 		Node newNode = new Node(element, null, null);  
 		if(head == null) {   
 			head = tail = cursor = newNode;
@@ -166,6 +169,9 @@ public class LinkedList implements ListIterator<String>{
 			index++;
 		}
 		lastCallWasNext = true;
+		lastCallWasPrevious = false;
+		lastCallWasAdd = false;
+		lastCallWasRemove = false;
 		cursor = cursor.next;
 		return value;
 	}
@@ -186,14 +192,25 @@ public class LinkedList implements ListIterator<String>{
 		if (!hasPrevious()) {
 			throw new NoSuchElementException();
 		}
+		else if (lastCallWasAdd == true) {
+			index--;
+			lastCallWasNext = false;
+			lastCallWasPrevious = true;
+			lastCallWasAdd = false;
+			lastCallWasRemove = false;
+			return lastAccessed.next.value;
+		}
 		else {
 			value = lastAccessed.value;
 			index --;
 			cursor = lastAccessed;
 			lastAccessed = cursor.previous;
+			lastCallWasNext = false;
+			lastCallWasPrevious = true;
+			lastCallWasAdd = false;
+			lastCallWasRemove = false;
+			return value;
 		}
-		lastCallWasNext = false;
-		return value;
 	}
 
 	@Override
@@ -220,21 +237,49 @@ public class LinkedList implements ListIterator<String>{
 			index--;
 		}
 		lastAccessed = null;
+		lastCallWasNext = false;
+		lastCallWasPrevious = false;
+		lastCallWasAdd = false;
+		lastCallWasRemove = true;
 	}
 
 	@Override
 	public void set(String e) {
-		if (lastCallWasNext == true) {
-			 set(previousIndex(), e);
+		if (lastCallWasAdd == true || lastCallWasRemove == true) {
+			throw new IllegalStateException();
 		}
-		if (lastCallWasNext == false) {
+		else if (lastCallWasNext == true) {
+			set(previousIndex(), e);
+			lastCallWasNext = false;
+			lastCallWasPrevious = false;
+			lastCallWasAdd = false;
+			lastCallWasRemove = false;
+		}
+		else if (lastCallWasNext == false) {
 			set(nextIndex(), e);
+			lastCallWasNext = false;
+			lastCallWasPrevious = false;
+			lastCallWasAdd = false;
+			lastCallWasRemove = false;
+		}
+	}
+	@Override
+	public void add(String e) {
+		if (lastCallWasNext == true && lastCallWasPrevious == false) {
+			add(index, e);
+			index++;
+		}
+		else if (lastCallWasPrevious == true && lastCallWasNext == false) {
+			add(index, e);
+			index++;
+		}
+		else {
+			addAtEnd(e);
+		}
+		lastCallWasAdd = true;
 		}
 
-	}
-	
-	
-	public ListIterator listIterator() {
-		return this;
-	}
+public ListIterator listIterator() {
+	return this;
+}
 }
